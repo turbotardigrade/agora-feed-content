@@ -1,4 +1,4 @@
-const agora = require("./agora-backend/agora.js")
+const agora = require("./agora.js")
 const fs = require("fs")
 const path = require('path');
 const through2 = require('through2');

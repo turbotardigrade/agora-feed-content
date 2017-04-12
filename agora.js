@@ -1,9 +1,3 @@
-/**
- * @module Agora backend management
- * @description This module manages the Agora process, as well as
- *              sends/receives requests.
- */
-
 'use strict';
 
 const child_process = require('child_process');
@@ -12,9 +6,11 @@ const stream = require('stream');
 const readline = require('readline');
 const path = require('path');
 
+const PEERBACKEND_PATH = './peerbackend/peerbackend';
+
 // change path so that commands are always relative to the this file's directory
 process.chdir(__dirname);
-let agora_process = child_process.spawn('../peerbackend/peerbackend', ['--silent']);
+let agora_process = child_process.spawn(PEERBACKEND_PATH, ['--silent']);
 
 // readline interface for easy input/output using question and answer
 let rl = readline.createInterface({
@@ -46,7 +42,7 @@ agora_process.on('exit', agoraCleanup);
 function agoraCleanup() {
   console.log("Peerbackend: Program terminated");
   if (!isTerminating) {
-    agora_process = child_process.spawn('../peerbackend/peerbackend', ['--silent']);
+    agora_process = child_process.spawn(PEERBACKEND_PATH, ['--silent']);
     rl = readline.createInterface({
       input: agora_process.stdout,
       output: agora_process.stdin

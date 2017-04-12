@@ -12,7 +12,7 @@ const results = []
 const labels = require('./labels.json');
 
 let i = 0;
-fs.createReadStream(path.join(__dirname, 'node_data/data_node01.json'))
+fs.createReadStream(path.join(__dirname, '/node_data/data_node01.json'))
   .pipe(parse.parse())
   .pipe(through2({objectMode: true}, function (chunk, encoding, done) {
     var self = this;

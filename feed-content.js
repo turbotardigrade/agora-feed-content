@@ -3,8 +3,8 @@ const fs = require("fs")
 const path = require('path');
 const through2 = require('through2');
 const crypto = require('crypto');
-const MAX_DELAY = 0;
-const MIN_DELAY = 0;
+const MAX_DELAY = 10000;
+const MIN_DELAY = 100;
 
 const parse = require('JSONStream')
 const results = []

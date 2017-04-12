@@ -10,7 +10,7 @@ const PEERBACKEND_PATH = './peerbackend/peerbackend';
 
 // change path so that commands are always relative to the this file's directory
 process.chdir(__dirname);
-let agora_process = child_process.spawn(PEERBACKEND_PATH, ['--silent']);
+let agora_process = child_process.spawn(PEERBACKEND_PATH, ['--silent', '--noComments']);
 
 // readline interface for easy input/output using question and answer
 let rl = readline.createInterface({

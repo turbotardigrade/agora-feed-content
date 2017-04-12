@@ -9,10 +9,10 @@ const MIN_DELAY = 0;
 const parse = require('JSONStream')
 const results = []
 
-const labels = require('./labels.json');
+const labels = require('./clean_labels.json');
 
 let i = 0;
-fs.createReadStream(path.join(__dirname, '/node_data/data_node01.json'))
+fs.createReadStream(path.join(__dirname, '/clean_node_data/data_node01.json'))
   .pipe(parse.parse())
   .pipe(through2({objectMode: true}, function (chunk, encoding, done) {
     var self = this;

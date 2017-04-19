@@ -3,48 +3,54 @@ const fs = require("fs")
 const path = require('path');
 const through2 = require('through2');
 const crypto = require('crypto');
-const MAX_DELAY = 10000;
-const MIN_DELAY = 100;
-
 const parse = require('JSONStream')
-const results = []
 
 const labels = require('./clean_labels.json');
+const MAX_DELAY = 5000;
+const MIN_DELAY = 1000;
 
-let i = 0;
-fs.createReadStream(path.join(__dirname, '/clean_node_data/data_node01.json'))
-  .pipe(parse.parse())
-  .pipe(through2({objectMode: true}, function (chunk, encoding, done) {
-    var self = this;
-    setTimeout(function () {
-      self.push(chunk);
-      done();
-    }, (Math.random() * (MAX_DELAY - MIN_DELAY)) + MIN_DELAY);
-  }))
-  .on('data', function(e) {
+var i = 0;
+data = [];
+
+function request(e, next) {
     if (!e.title) {
-      e.title = "";
+	e.title = "";
     }
     if (!e.content) {
-      e.content = "";
+	e.content = "";
     }
     agora.request({
-      command: "postPost",
-      arguments: {
-        "title": e.title,
-        "content": e.content
-      }
-    }, function(result) {
-      if (labels[crypto.createHash('md5').update(e.content).digest("hex")] == null) {
-        console.log("Error: md5 not in labels");
-      }
-      console.log(++i)
-      console.log(result);
-      if (result.error) {
-        console.log(e);
-      }
-    })
-  })
-  .on('end', function() {
-    agora.quit();
-  })
+	command: "postPost",
+	arguments: {
+	    "title": e.title,
+	    "content": e.content
+	}
+    }, next);
+}
+
+function next(result) {    
+    console.log(++i)
+    console.log(result);
+    if (result.error) {
+	console.log(result.error);
+    }
+
+    if (i == data.length) {
+	agora.quit();
+	return;
+    }
+
+    setTimeout(() => {request(data[i], next)},
+	(Math.random() * (MAX_DELAY - MIN_DELAY)) + MIN_DELAY);
+}
+
+fs.createReadStream(path.join(__dirname, '/clean_node_data/data_node01.json'))
+    .pipe(parse.parse())
+    .pipe(through2({objectMode: true}, function (chunk, encoding, done) {
+	data.push(chunk);
+	done();
+    }))
+    .on('finish', () => {
+	console.log('Number of posts to be fed:', data.length);
+	request(data[i], next);
+    });

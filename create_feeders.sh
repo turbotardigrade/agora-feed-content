@@ -31,7 +31,7 @@ cd ..
 cp models/post01.pkl feeder$NUM/peerbackend/dist/post.pkl
 
 # Special tasks if the feeder is a spammer
-if [[ $NUM -gt "18" ]]; then
+if [ $NUM -gt "18" ]; then
     echo "Generated feeder is a spammer"
 
     # Spammers don't pull content from other people

@@ -35,13 +35,14 @@ function next(result) {
 	console.log(result.error);
     }
 
-    if (i == data.length) {
-	agora.quit();
+    if (i == data.length || i >= 30) {
+	console.log('Done feeding');
+	//agora.quit();
 	return;
     }
 
     setTimeout(() => {request(data[i], next)},
-	(Math.random() * (MAX_DELAY - MIN_DELAY)) + MIN_DELAY);
+	       (Math.random() * (MAX_DELAY - MIN_DELAY)) + MIN_DELAY);
 }
 
 fs.createReadStream(path.join(__dirname, '/clean_node_data/data_node01.json'))

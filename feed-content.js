@@ -6,8 +6,8 @@ const crypto = require('crypto');
 const parse = require('JSONStream')
 
 const labels = require('./clean_labels.json');
-const MAX_DELAY = 5000;
-const MIN_DELAY = 1000;
+const MAX_DELAY = 7000;
+const MIN_DELAY = 2000;
 
 var i = 0;
 data = [];

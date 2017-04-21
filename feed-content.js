@@ -35,7 +35,7 @@ function next(result) {
 	console.log(result.error);
     }
 
-    if (i == data.length || i >= 30) {
+    if (i == data.length || i >= 15) {
 	console.log('Done feeding');
 	//agora.quit();
 	return;
